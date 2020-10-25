@@ -16,6 +16,7 @@ composer create-project --prefer-dist laravel/laravel projeto1
 Browser -> Routes(web.php) -> $controller:
                        | |-> $view -> Browser
                        |<-> Model <-> BD
+
 1- User dispara ação no Browser para deerminada url
 2- Ação será capturada pelo web.php, no diretório Routes, que será roteado a um controller
 3- Controller conversa com Model, que conversa com BD(PDO)
@@ -25,7 +26,7 @@ Browser -> Routes(web.php) -> $controller:
 
 
 ========= DIRETÓRIOS =========
-- App: Raíz da App(ex User.php): Models(User.php Model de usuários)
+- App/Models: Models(User.php Model de usuários)
 - App/Http/Controllers: Controladores
 - Resources/views: Views(ex welcome.blade.php)
 - Routes: Rotas (web.php possui as rotas do Browser, api.php de APIs...)
@@ -33,23 +34,52 @@ Browser -> Routes(web.php) -> $controller:
 - .env: Configurações do Laravel(DBs, Drivers...)
 
 
-========= ROTAS =========
+========= ROUTES =========
 /*web.php*/
 //Na url 'listagem_usuario', retorna nomeController@metodoController
-//User informe 'listagem_usuario', levará ao UserController e retornará o listUser. Ex: 
+//User informe 'listagem_usuario', levará ao UserController e retornará o listUser. Ex: http://localhost/projetos/laravel/projeto1/public/listagem_usuario 
 use App\Http\Controllers\UserController; //import Controller
 Route::get('listagem_usuario',[UserController::class,'listUser']);
 
 
-========= CONTROLADOR =========
+========= CONTROLLER =========
 > Criar Controller: executar, no diretório do projeto, o código: php artisan make:controller nomeController
-//Método UserController, em 'UserController.php'
+
+CONTROLLER COM VIEW
+//Método UserController, em 'UserController.php'.
 class UserController extends Controller {
     public function listUser() {
         echo "Listar Users";
     }
 }
 
+//Controller com dados de BD que envia à view
+class UserController extends Controller {
+    public function listUser() {
+        //select user where id=1 somente o 1º que encontrar, abaixo
+        $user = User::where('id','=',1)->first();
+        return view('listUser',[
+            'user' => $user
+            //var visao => var controller
+        ]);
+    }
+}
+
+CONTROLLER COM MODEL
+//Controller UserController.php adiciona novo user ao usuário, na rota, ir para url 'listagem_usuario'
+class UserController extends Controller {
+    public function listUser() {
+        $user = new User();
+        $user->name = 'Mateus';
+        $user->email = 'mateus1908.schwede@gmail.com';
+        $user->password = Hash::make('123');
+        $user->save();
+    }
+}
 
 
->>>> PAROU AULA2 16:24 <<<<
+========= VIEW =========
+//View listUser.blade.php
+<h1>Listagem Users</h1>
+<p>Nome: {{ $user->name }}</p>
+<p>Email: {{ $user->email }}</p>
