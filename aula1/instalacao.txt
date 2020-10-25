@@ -1,0 +1,55 @@
+========= INSTALAÇÃO =========
+1- Instalar XAMPP
+2- Composer: baixe o arquivo em composer.org, e enviá-lo para pasta de var referência global(no Windows somente executar)
+- Testar composer: No terminal, execute o comando 'composer' para ver informações do mesmo
+
+3- Instalar Último Laravel: laravel.com
+Laravel 8.11 usado, com comandos de Laravel 6
+- Via composer Create-Project: No diretório dos projetos, executar o comando:
+composer create-project --prefer-dist laravel/laravel projeto1
+
+4- Criar BD 'laravel', com comando, no diretório do projeto: php artisan migrate
+(1º criar BD no Phpmyadmin, depois o comando gerará as tables)
+
+
+========= FUNCIONAMENTO =========
+Browser -> Routes(web.php) -> $controller:
+                       | |-> $view -> Browser
+                       |<-> Model <-> BD
+1- User dispara ação no Browser para deerminada url
+2- Ação será capturada pelo web.php, no diretório Routes, que será roteado a um controller
+3- Controller conversa com Model, que conversa com BD(PDO)
+4- Informação do BD(falha/sucesso) volta ao Model e Controller
+5- Controller chama View dinâmica(Blade), que enviará o resultado via Browser para User
+- Pasta 'public' será onde o projeto é apresentado ao user
+
+
+========= DIRETÓRIOS =========
+- App: Raíz da App(ex User.php): Models(User.php Model de usuários)
+- App/Http/Controllers: Controladores
+- Resources/views: Views(ex welcome.blade.php)
+- Routes: Rotas (web.php possui as rotas do Browser, api.php de APIs...)
+- Vendor: Dependências (não mexer)
+- .env: Configurações do Laravel(DBs, Drivers...)
+
+
+========= ROTAS =========
+/*web.php*/
+//Na url 'listagem_usuario', retorna nomeController@metodoController
+//User informe 'listagem_usuario', levará ao UserController e retornará o listUser. Ex: 
+use App\Http\Controllers\UserController; //import Controller
+Route::get('listagem_usuario',[UserController::class,'listUser']);
+
+
+========= CONTROLADOR =========
+> Criar Controller: executar, no diretório do projeto, o código: php artisan make:controller nomeController
+//Método UserController, em 'UserController.php'
+class UserController extends Controller {
+    public function listUser() {
+        echo "Listar Users";
+    }
+}
+
+
+
+>>>> PAROU AULA2 16:24 <<<<
