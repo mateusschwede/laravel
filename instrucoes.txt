@@ -94,6 +94,7 @@ class UserController extends Controller {
 <p>Email: {{ $user->email }}</p>
 
 
+
 AULA4
 Automatizando com artisan e resource
 
@@ -116,4 +117,10 @@ public function boot() {
     ]);
 }
 
->>>> PAROU AULA4 16:50 <<<<
+>>> CHECKLIST AULA4 <<<
+1- Criação automatizada do controller
+2- Criação, no routes 'web.php', da route automatizada resources. Tradução dos parâmetros uri na própria route
+3- Alimentar views e, ao mesmo tempo, alimentação dos métodos do controller relacionados às mesmas, conforme parâmetros e BD
+
+
+>>>> VER AULA5 <<<<
