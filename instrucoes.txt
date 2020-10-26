@@ -17,8 +17,8 @@ Browser -> Routes(web.php) -> $controller:
                        | |-> $view -> Browser
                        |<-> Model <-> BD
 
-1- User dispara ação no Browser para deerminada url
-2- Ação será capturada pelo web.php, no diretório Routes, que será roteado a um controller
+1- User dispara ação no Browser para determinada url
+2- Ação será capturada pelo routes web.php, no diretório Routes, que será roteado a um controller
 3- Controller conversa com Model, que conversa com BD(PDO)
 4- Informação do BD(falha/sucesso) volta ao Model e Controller
 5- Controller chama View dinâmica(Blade), que enviará o resultado via Browser para User
@@ -94,9 +94,26 @@ class UserController extends Controller {
 <p>Email: {{ $user->email }}</p>
 
 
->>>> CRONOGRMA <<<<
-AULA 1: Projeto Laravel base, e conceito de routes vinculados à base de dados padrão(BD Laravel)
-AULA 2: CRUD Laravel com Verbalização Rest e Injeção de Dependências
+AULA4
+Automatizando com artisan e resource
 
+> Criar controller com metodos à determinada view automaticamente:
+php artisan make:controller Form\TestController --resource --model=User
+(--resource cria todos os métodos do controller: verbalização rest e injeções de dependência automaticamente)
+(--model=User criará automaticamente toda injeção de dependências dos demais parâmetros relacionados à model User)
 
->>>> VER AULA4 <<<<
+> Criar view automatizada universal métodos CRUD
+//Criador universal de rotas padrões para o controller TestController(get,post,put/patch,delete), altera o nome da route de 'usuario' para 'user', e altera os parâmetros de uri 'usuarios' para 'user'
+Route::resource('usuarios',TestController::class)->names('user')->parameters(['usuarios'=>'user']);
+
+> Alterar nome de trechos da uri para personalizados('original'=>'personalizado')
+//Providers > AppServiceProvider.php, método boot()
+use Illuminate\Support\Facades\Route;
+public function boot() {
+    Route::resourceVerbs([
+        'create'=>'novo',
+        'edit'=>'editar'
+    ]);
+}
+
+>>>> PAROU AULA4 16:50 <<<<
