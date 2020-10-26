@@ -43,6 +43,7 @@ NA PRÁTICA:
 
 
 ========= ROUTES =========
+- Listar routes: php artisan route::list
 /*web.php*/
 //Na url 'listagem_usuario', retorna nomeController@metodoController
 //User informe 'listagem_usuario', levará ao UserController e retornará o listUser. Ex: http://localhost/projetos/laravel/projeto1/public/listagem_usuario 
@@ -93,4 +94,9 @@ class UserController extends Controller {
 <p>Email: {{ $user->email }}</p>
 
 
->>>> PAROU AULA3 20:48 <<<<
+>>>> CRONOGRMA <<<<
+AULA 1: Projeto Laravel base, e conceito de routes vinculados à base de dados padrão(BD Laravel)
+AULA 2: CRUD Laravel com Verbalização Rest e Injeção de Dependências
+
+
+>>>> VER AULA4 <<<<
