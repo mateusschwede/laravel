@@ -24,6 +24,14 @@ Browser -> Routes(web.php) -> $controller:
 5- Controller chama View dinâmica(Blade), que enviará o resultado via Browser para User
 - Pasta 'public' será onde o projeto é apresentado ao user
 
+NA PRÁTICA:
+(Atente-se com os 'use' e 'namespace', para checar se os mesmos correspondem à árvore de diretórios)
+1- Criar route, comentá-la para criar o Controller
+2- Criar controller, com artisan, e criar metodo que será lido na route
+3- Testar, informando uri, se o método do controller e route funcionam
+4- Criar view com Html
+5- No controller, criar o metodo de return view, com parâmetros var visão e var controller
+6- Na view, informar as vars({{$user->name}}) do informadas como parâmetros do método no controller
 
 ========= DIRETÓRIOS =========
 - App/Models: Models(User.php Model de usuários)
@@ -43,7 +51,7 @@ Route::get('listagem_usuario',[UserController::class,'listUser']);
 
 
 ========= CONTROLLER =========
-> Criar Controller: executar, no diretório do projeto, o código: php artisan make:controller nomeController
+> Criar Controller: executar, no diretório do projeto, o código: php artisan make:controller pasta\nomeController(ou sem pasta)
 
 CONTROLLER COM VIEW
 //Método UserController, em 'UserController.php'.
@@ -83,3 +91,6 @@ class UserController extends Controller {
 <h1>Listagem Users</h1>
 <p>Nome: {{ $user->name }}</p>
 <p>Email: {{ $user->email }}</p>
+
+
+>>>> PAROU AULA3 20:48 <<<<
