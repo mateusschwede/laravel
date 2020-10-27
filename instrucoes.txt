@@ -5,7 +5,7 @@
 
 3- Instalar Último Laravel: laravel.com
 Laravel 8.11 usado, com comandos de Laravel 6
-- Via composer Create-Project: No diretório dos projetos, executar o comando:
+-> CRIAR PROJETO: Via composer Create-Project: No diretório dos projetos, executar o comando:
 composer create-project --prefer-dist laravel/laravel projeto1
 
 4- Criar BD 'laravel', com comando, no diretório do projeto: php artisan migrate
@@ -40,6 +40,7 @@ NA PRÁTICA:
 - Routes: Rotas (web.php possui as rotas do Browser, api.php de APIs...)
 - Vendor: Dependências (não mexer)
 - .env: Configurações do Laravel(DBs, Drivers...)
+- Database/Migrations: Migrations
 
 
 ========= ROUTES =========
@@ -123,4 +124,33 @@ public function boot() {
 3- Alimentar views e, ao mesmo tempo, alimentação dos métodos do controller relacionados às mesmas, conforme parâmetros e BD
 
 
->>>> VER AULA5 <<<<
+>>> AULA5 <<<
+PROJETO4: Versionando BD com Migrations
+Ver anotações relacionadas no último arquivo do diretório migrations
+
+Migrations:
+Comandos de gestão de BD de dentro do Laravel, usando php
+> Up: Comando de envio ao BD (ex: Create table)
+> Down: Exatamente o contrário de Up, comando de retorno/desfazer ao BD (ex: Drop table). Down é o método, criado automaticamente, contrário ao criado no Up
+Importante que as Migrations sejam criadas em ordem, de acordo com o BD, com relação às tables dependentes. Migrations são executadas em ordem crescente por criação.
+
+Criar Migration:
+Comando, no diretório do projeto, via terminal.
+Criar nova table(Create Table):
+php artisan make:migration comando_nomeTable_table(ex: create_users_table) --create=nomeTable(sintaxe de criação(create) à table nomeTable)
+
+Adicionar novo campo à table existente(Alter Table):
+php artisan make:migration comando_nomeTable_table --table=nomeTable
+
+Criar BD após criadas as Migrations:
+php artisan migrate (executa todos os arquivos de migrate criados pendentes)
+
+Desfazer criação no BD:
+php artisan migrate:rollback (desfaz todas as alterações no BD)
+php artisan migrate:rollback --step=2 (No caso, desfazer os últimos 2 passos, ex: desfazer as últimas 2 migrations criadas no BD)
+
+No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalhará com o prjeto somente executa o 'php artisan migrate', e todo o BD será gerado/atualizado automaticamente
+
+
+
+>>>> VER AULA6 <<<<
