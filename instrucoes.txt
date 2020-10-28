@@ -96,8 +96,8 @@ class UserController extends Controller {
 
 
 
-AULA4
-Automatizando com artisan e resource
+>>> AULA4 <<<
+Projeto3: Automatizando com artisan e resource
 
 > Criar controller com metodos à determinada view automaticamente:
 php artisan make:controller Form\TestController --resource --model=User
@@ -125,7 +125,7 @@ public function boot() {
 
 
 >>> AULA5 <<<
-PROJETO4: Versionando BD com Migrations
+Projeto4: Versionando BD com Migrations
 Ver anotações relacionadas no último arquivo do diretório migrations
 
 Migrations:
@@ -153,4 +153,68 @@ No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalha
 
 
 
->>>> VER AULA6 <<<<
+>>> ROTEIRO AULA6 <<<
+Projeto5: Criando regra de negócio e configurando Model, manual e automatizado
+
+Para criar Model, primeiro precisa de uma table do mesmo no BD sobre a mesma, criando nova Migration
+> Atualizar/Resetar BD com projeto:
+php artisan migrate:fresh (exlui tds as tables e recria com base nas Migrations do projeto)
+
+> Criar Migration
+php artisan make:migration create_posts_table
+
+> Depois de codificar a Migration, atualizar/resetar BD com Migration pendente
+php artisan migrate
+
+> Criar Controller
+php artisan make:controller PostController
+
+> Modificar o método welcome em routes 'web.php', com o controller PostController, com método de execução 'showForm'
+
+> Criar método 'showForm' no PostController, em branco
+
+> Criar view de return do 'showForm', chamada 'form.blade.php', e populá-la com Html básico e @csrf
+
+> Criar nova route em 'web.php', do tipo post, com nome e método chamados 'debug'
+
+> No Controller 'PostController', criar método debug só com o inicial, e concluir o 'showForm'
+
+> Inserir action como {{route}} na view 'form.blade.php'
+
+> Popular método 'debug' no controller PostController
+
+> Testar submissão do formulário Hmtl com 'dd($request->al());'
+
+Para inserir os dados do form Html no BD, precisa-se criar a respectiva Model antes.
+
+> Criar Model 'Post':
+php artisan make:model Post
+
+> Popular Model 'Post'
+Laravel converte tudo para minúsculo e plural ao BD, ou seja, a table relacionada precisa ser 'posts'
+1- Informar somente dados relacionados com BD no Controller 'PostController', no método 'debug'(remover o _token...)
+2- Informar dados que serão enviados ao Model 'Post' para que possa serem persistidos ao BD(informar no método 'debug' do 'PostController')
+Da forma acima, dará erro pq o slug precisa ser não null. Para contornar isso, segue:
+> Na Model 'Post', informar e popular o método setPropriedadeAttribute($valorPassadoAtributo) (ex setTitleAttribute($value))
+Com isso, automaticamente ao informar o title, ele informará o mesmo como slug, já formatado no formato url, gerados pelo método Str, já informado
+
+> Testar, no formulário Html, a inserção de valores no BD
+
+> (Não recomendável) Pode-se fazer o tratamento de erro de campos e slug de forma mais simples, criando, na Model 'Post', a propriedade fillable
+> (Não recomendável) Caso queira remover os campos timestamp() do BD, precisa-se:
+1- Remover o atributo na Migration
+2- Na Model, inserir atributo 'public timestamps = false;'
+3- Atualizar/Resetar BD com comando 'php artisan migrate:fresh'
+
+AUTOMATIZADO
+> Criar Model, com Migration e Controller:
+php artisan make:model nomeModel -mcr (ex: php artisan make:model Product -mcr)
+Após isso, será necessário somente:
+1- Preencher campos na migration, de acordo com a respectiva table no DB
+2- Informar atributos na Model
+3- Informar as routes 'web.php' e programar os métodos no Controller
+(Atente-se em informar e verificar os 'use' e 'namespace' corretos para os recursos em cada arquivo)
+
+
+
+>>>> VER AULA7 <<<<
