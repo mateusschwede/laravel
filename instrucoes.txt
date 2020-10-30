@@ -218,3 +218,39 @@ Após isso, será necessário somente:
 
 
 >>>> VER AULA7 <<<<
+Projeto6: Relacionamentos entre Models
+
+> Criar Models, com Controllers e Migrations:
+php artisan make:model Address -mcr
+php artisan make:model Category -mcr
+php artisan make:model Post -mcr
+php artisan make:controller UserController --resource
+(Popular Migrations com atributos)
+
+> Atualizar/Resetar BD:
+php artisan migrate:fresh
+
+> Inserir, manualmente, alguns Users no BD.
+INSERT INTO users(name,email,password,created_at,updated_at) VALUES ('mateus','mateus@gmail',123,now(),now()),('mateus2','mateus@hotmail',456,now(),now());
+
+> Add route usuario/{id} para UserController@show em 'web.php' (informar 'use' tbm)
+> Popular método show em UserController (informar 'use' tbm), com $user = User::where('id',$id)->first(); dd($user);
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+
+> Inserir, manualmente, alguns Adressess no BD.
+INSERT INTO addresses(user,street,number,city,state,created_at,updated_at) VALUES (1,'rua x',33,'cidade','rs',now(),now());
+
+> Popular Model Adress
+(Não serão criadas views com forms, será colocado diretamente via controller(NÃO RECOMENDADO))
+
+
+
+Relacionamentos:
+1-1: 1 User possui 1 Address
+1-N: 1 User possui N Posts
+N-N: N Categories possui(em) N Posts
+
+
+
+>>>> PAROU AULA7 11:45 <<<<
+RELACIONAMENTO 1-1 (1User possui 1Address)
