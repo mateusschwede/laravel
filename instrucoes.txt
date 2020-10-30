@@ -217,7 +217,7 @@ Após isso, será necessário somente:
 
 
 
->>>> VER AULA7 <<<<
+>>> AULA7 <<<
 Projeto6: Relacionamentos entre Models
 
 > Criar Models, com Controllers e Migrations:
@@ -237,12 +237,11 @@ INSERT INTO users(name,email,password,created_at,updated_at) VALUES ('mateus','m
 > Popular método show em UserController (informar 'use' tbm), com $user = User::where('id',$id)->first(); dd($user);
 > Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
 
-> Inserir, manualmente, alguns Adressess no BD.
+> Inserir, manualmente, alguns Addressess no BD.
 INSERT INTO addresses(user,street,number,city,state,created_at,updated_at) VALUES (1,'rua x',33,'cidade','rs',now(),now());
 
-> Popular Model Adress
+> Popular Model Address
 (Não serão criadas views com forms, será colocado diretamente via controller(NÃO RECOMENDADO))
-
 
 
 Relacionamentos:
@@ -251,6 +250,92 @@ Relacionamentos:
 N-N: N Categories possui(em) N Posts
 
 
-
->>>> PAROU AULA7 11:45 <<<<
 RELACIONAMENTO 1-1 (1User possui 1Address)
+Parte-se da table de origem da informação(User, pois User possui Address, Address é dependente de User).
+
+Para saber de qual Address é determinado User (Caminho de ida)
+> Em Model User, criar método de relacionamento 'address', que retornará o relacionamento com as keys relacionáveis
+
+> Em UserController, no método show, adicionar método $address
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+
+Para saber de qual User é determinado Address (Caminho de volta)
+> Em route 'web.php', inserir route /endereco/{address}
+(Informe 'use' tbm)
+
+> Em AddressController, popular metodo show
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/endereco/1)
+
+> Em Model Address, adicionar método user
+
+> Em AddressController, no método show, adicionar método $user
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/endereco/1)
+
+
+RELACIONAMENTO 1-N (1User escreve NPosts)
+Processo similar ao acima, só muda o nome do método de relacionamento de keys
+
+Para saber de quais Posts é determinado User (Caminho de ida)
+> Inserir, manualmente, alguns Posts no BD
+INSERT INTO posts(author,title,slug,content,created_at,updated_at) VALUES (1,'titulo1','titulo1','testeContent',now(),now()),(1,'titulo2','titulo2','testeContent2',now(),now()),(2,'titulo3','titulo3','testeContent3',now(),now());
+
+> Em Model User, criar método de relacionamento 'posts'
+
+> Em UserController, no método show, adicionar método $posts
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/2)
+
+Para saber de qual User são determinados Posts (Caminho de volta)
+> Em Model Post, propriedade $table e método de relacionamento 'author'
+
+> Em PostController, no método show, echo de volta, somente a linha
+
+> Em route 'web.php', inserir route /artigo/{post}
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
+
+> Em PostController, método show, informar $user e listagem
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/2)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/3)
+
+
+RELACIONAMENTO N-N (NPosts possuem NCategories)
+Precisa-se de table pivô para fazer a união dos registros(Ex: table posts_categories).
+
+Criar Migration
+php artisan make:migration create_posts_categories_table --create=posts_categories
+php artisan migrate
+(Popular migration tbm)
+
+> Inserir, manualmente, algumas Categories no BD:
+INSERT INTO categories(title,description,created_at,updated_at) VALUES ('cat1','descCat1',now(),now()),('cat','descCat2',now(),now());
+
+> Inserir, manualmente, relações entre tables Posts e Categories no BD:
+INSERT INTO posts_categories(post,category) VALUES (1,1),(1,2),(2,1),(3,2);
+
+Quais Posts são determinadas Categories(Ida)
+> Em Model Category, informar $table
+> Em Model Post, informar método de relacionamento categories
+
+Em PostController, no método show, informar $categories e listagem
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/2)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/3)
+
+Quais Categories são determinados Posts(Volta)
+> Em route 'web.php', inserir route /categoria/{category}
+(Informar 'use' tbm)
+
+> No CategoryController, no método show, informar Html Categories
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
+
+> Em Model Category, informar método de relacionamento posts
+> No CategoryController, no método show, informar Html de Posts
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
+> Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
+
+
+>>>> VER AULA8 <<<<

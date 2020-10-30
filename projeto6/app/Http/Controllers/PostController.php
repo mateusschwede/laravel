@@ -15,6 +15,20 @@ class PostController extends Controller {
     }
 
     public function show(Post $post) {
+        echo "<p>(Volta)Post {$post->id}- {$post->title}, {$post->content}</p>";
+
+        $user = $post->author()->first();
+        if ($user) {
+            // O correto seria levar isso à uma view, isso fora feito somente para simplificar
+            echo "<p>(Volta)Author {$user->name}, {$user->email}</p>";
+        }
+
+        $categories = $post->categories()->get();
+        if ($categories) {
+            foreach ($categories as $category) {
+                echo "<p>(Ida)Category {$category->id} do Post {$post->id}- {$category->title}, {$category->description}</p>";
+            }
+        }
     }
 
     public function edit(Post $post) {

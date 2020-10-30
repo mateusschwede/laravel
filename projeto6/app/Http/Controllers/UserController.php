@@ -16,7 +16,21 @@ class UserController extends Controller {
 
     public function show($id) {
         $user = User::where('id',$id)->first();
-        dd($user);
+        //dd($user);
+
+        $address = $user->address()->first();
+        if ($address) {
+            // O correto seria levar isso à uma view, isso fora feito somente para simplificar
+            echo "<p>Nome end: {$address->street},{$address->number} {$address->city}/{$address->state}</p>";
+        }
+
+        $posts = $user->posts()->get(); //retorna vários
+        if ($posts) {
+            // O correto seria levar isso à uma view, isso fora feito somente para simplificar
+            foreach ($posts as $post) {
+                echo "<p>(Ida)Post {$post->id}- {$post->title}, {$post->content}</p>";
+            }
+        }
     }
 
     public function edit($id) {
