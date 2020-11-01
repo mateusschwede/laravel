@@ -338,4 +338,72 @@ Quais Categories são determinados Posts(Volta)
 > Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
 
 
->>>> VER AULA8 <<<<
+>>> AULA8 <<<
+Projeto7: Laravel login com artisan e hardcode
+
+LARAVEL8:
+//Criar projeto Projeto7.8 e, dentro do projeto, instalar dependências:
+> composer require laravel/jetstream
+> php artisan jetstream:install livewire //criar migrations de autenticação
+> php artisan migrate
+> Verificar arquivos e inserir código faltando
+> INSERIR BD MANUALMENTE: INSERT INTO user(name,email,password) VALUES ('mateus','mateus@gmail',123);
+(O Doc Projeto7.8 mostra o projeto de autenticação incializado, utilizado Laravel8)
+
+Com o lançamento do Laravel8, novas maneiras de autenticação foram desenvolvidas. Elas funcionam por meio do Laravel Jetstream e Fortify, juntamente com serviços de autenticação token API Laravel Livewire e Inertia.js, além de pacotes de autenticação como o Passport Sanctum, ambas libraries baseadas em cookies embutidos no Laravel, onde uma delas deverá ser escolhida para criação do projeto. No entanto, como tudo ainda encontra-se muito novo, instável e pouco padronizado, utilizaremos o meio mais utilizado na versão 6, através do Laravel UI, de uma forma simples com Bootstrap, ao invés do Vue. Isso, além do fato de que desenvolveremos toda a estrutura de login para maior entendimento. Por fim, o processo é bastante similar entre as versões, desde que conheça-se a estrutura e funcionamento da mesma.
+
+
+> Resetar BD: php artisan migrate:fresh
+
+Instalação Clássica Laravel6 Authentication:
+> composer require laravel/ui --dev
+> php artisan ui bootstrap --auth
+> npm install && npm run dev (necessário Node.js instalado!)
+(Serão geradas migrations, route, controllers e views específicas para authentication)
+
+> Testar no Browser se a página possui botões de Login/Register (http://localhost/projetos/laravel/projeto7/public)
+(Entrar na página 'Register' e registrar novo User, senha de pelo menos 8 caracteres, Testar login com os mesmos dados)
+
+Criando Painel de Administração Manualmente:
+> Em routes 'web.php', adicionar route comentada /admin (Descomentar após feitos respectivos Controller e método envolvidos)
+
+> Criar controller AuthController: php artisan make:controller AuthController
+> Criar método dashboard no AuthController
+
+> Criar, em views, diretório admin
+> Em views/admin criar View dashboard
+> Testar no Browser (http://localhost/projetos/laravel/projeto7/public/admin)
+
+> Inserir, dentro do método dashboard do AuthController, condição if da facade Auth
+(Insira os 'use' tbm)
+> Em routes 'web.php', adicionar route /admin/login
+> Em AuthController, inserir método showLoginForm
+> Em views/admin, adicionar view formLogin
+> Em AuthController, informar return redirect
+> Testar no Browser (http://localhost/projetos/laravel/projeto7/public/admin) será redirecionado à /login
+
+Validar iserção dos dados e exibir dashboard:
+> Em routes 'web.php', informar route '/admin/login/do'
+> Em AuthController, informar método login com somente dd()
+> Testar formulário no Browser F5
+
+> Em AuthController, método login, informar $credentials e Auth::attempt()
+> Testar login, conforme BD, no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login) e, após isso voltar para /admin, encontrarei o painel de admin
+
+> Em AuthController, informar no if dd(Auth::user)
+
+Logout:
+> Em routes 'web.php', informar route '/admin/logout'
+> Em AuthController, informar método logout
+> Em view dashboard, informar link com route logouts
+> Testar login, conforme BD, no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login) e, após isso clicar em 'logout'(voltará ao form de login)
+
+Validar Erros:
+> AuthController, informar if Auth::attempt e return redirect back
+> Em view formLogin, informar @if
+> Testar login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
+
+Validar email:
+> Em view formLogin, trocar a propriedade email para text no input email
+> AuthController, método login, informar if filter_var $request->email
+> Testar email login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
