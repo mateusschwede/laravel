@@ -407,3 +407,54 @@ Validar email:
 > Em view formLogin, trocar a propriedade email para text no input email
 > AuthController, método login, informar if filter_var $request->email
 > Testar email login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
+
+
+>>> AULA9 <<<
+Projeto8: Laravel Frontend com Blade
+
+- Diretivas sintáticas específicas do Blade(if, foreach, while...)
+- Caracteres de interpolação(interpolation, misturar Html com Php de forma mais simples)
+- Assets: Ativos do site(js, css...)
+
+> Em routes 'web.php' criar routes /cursos e /contato, inserindo name() nas routes, e alterar view 'welcome' para 'site.home'
+> Em views, criar diretório 'site' e, dentro dele, criar view home
+> Acessar site do Bootstrap > Examples > Carousel, acessar código fonte, copiar todo o <body> até o </main>, colar o código na view 'home' e fechar o </body>
+> No Browser, página 'public', recarregar página e testar site
+
+Interpolation (Mesclar Php com Html usando o Blade):
+> Em view 'home', alterar, no footer, o ano para Php {{date('Y')}}
+
+Diretivas (@if, @foreach, @while...):
+> Em view 'home', inserir if de condição bom dia, boa tarde, boa noite (Aprox linha 47) e foreach modelo
+> Em Config/app.php, alterar timezone para 'America/Sao_Paulo' (UTC é o padrão do Laravel, 3 hrs a mais...)
+> No Browser, página 'public', recarregar página e testar site
+Exemplo:
+@foreach()
+    <p>Código aqui</p>
+@endforeach
+
+Criar página de contato:
+> No navbar, criar links de routes para os itens home, cursos e contato(retirar 'disable' do contato)
+> Criar views, no diretório site, 'contact' e 'courses'
+
+Herança (@extends: Layout Filho herda de Layout Master):
+> No diretório 'site', criar diretório 'master'
+> Em 'master', criar view 'layout'(Layout Master). Recortar todo conteúdo da view 'home' na view 'layout'
+> Em view 'home' informar @extends
+
+> Em view 'layout', informar links de routes nos itens do navbar
+> Em routes 'web.php', alterar routes /cursos e /contato de view 'welcome' para suas respectivas views
+
+> Em view 'layout' recortar conteúdo de <main> até </main> (Mas manter o footer, tag main deve ser mantida)
+>> Dentro da tag main informar @yield('content')
+> View 'home', informar @section('content'), colar conteúdo recortado de layout abaixo da section, após informar @endsection
+>> Testar, no Browser, página home e verificar se o conteúdo interno fora acoplada à mesma(Páginas courses e contact possuem somente conteúdos extendidos de 'layout')
+
+> View 'contact', informar @section('content') e @endsection e conteúdo interno à ela
+>> Testar, no Browser, página contact e verificar se o conteúdo interno fora acoplada à mesma
+
+> View 'courses', informar @section('content') e @endsection e conteúdo interno à ela
+>> Testar, no Browser, página courses e verificar se o conteúdo interno fora acoplada à mesma
+
+Menu itens ativos/selecionados:
+> View 'layout', em nav-item do navbar, informar condição ternária {{Route...}}
