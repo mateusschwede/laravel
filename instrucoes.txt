@@ -343,8 +343,7 @@ Projeto7: Laravel login com artisan e hardcode
 
 LARAVEL8:
 //Criar projeto Projeto7.8 e, dentro do projeto, instalar dependências:
-> composer require laravel/jetstream
-> php artisan jetstream:install livewire //criar migrations de autenticação
+> Com Laravel Installer(laravel new nomeProjeto --jet) Escolher opção de dependência que melhor convém-lhe
 > php artisan migrate
 > Verificar arquivos e inserir código faltando
 > INSERIR BD MANUALMENTE: INSERT INTO user(name,email,password) VALUES ('mateus','mateus@gmail',123);
