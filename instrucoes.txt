@@ -457,3 +457,88 @@ Herança (@extends: Layout Filho herda de Layout Master):
 
 Menu itens ativos/selecionados:
 > View 'layout', em nav-item do navbar, informar condição ternária {{Route...}}
+
+
+>>> AULA 10 <<<
+Projeto9: Gerenciando Assets com Laravel Mix
+Laravel Mix: Ferramenta do ecossistema Laravel para gestão de webpacks
+
+Codificação diretório site:
+> Diretório 'views', criar novo diretório 'site', criando dentro desse uma view 'home'
+>> Diretório 'site', criar novos diretórios 'css' e 'js'
+>>> Diretório 'css', criar arquivo 'style.css'
+>>> Diretório 'js', criar arquivo 'script.js'
+
+Instalar dependências de acesso à arquivos que não estão no diretório public:
+> npm install (Instalará todas dependências presentes no arquivo package.json) - Necessário Nodejs com NPM instalados
+(Criará diretório 'node_modules', contendo todas dependências js)
+
+Parametrizar arquivos css que serão vinculados ao diretório 'public':
+> Arquivo 'webpack.mix.js', comentar entradas e informar mix styles
+>> npm run dev (Atualizar arquivos com mix, gera arquivo de destino no diretório 'public')
+
+> Em 'views/site/css/style.css', inserir estilos para *
+(Sempre alterar arquivos no 'resources', os de 'public' serão gerados automaticamente à partir destes)
+>> Atualizar arquivos mix: npm run dev (npm run produtcion mimifica tbm)
+
+Inserir novo arquivo de css para parametrizar:
+> Em views/site/css criar novo arquivo 'reset.css', recortar conteúdo do 'style.css' e colar no 'reset.css'
+>> Em views/site/css/style.css, informar estilos de h1
+>> Em 'webpack.mix.js' informar, no caminho de origem, arquivo 'reset.css'
+>> Atualizar arquivos mix: npm run dev (npm run produtcion mimifica tbm)
+(npm run dev resultará em 1 único arquivo no public, com todos código concatenados, em ordem, dos arquivos origem)
+(npm run produtcion fará o mesmo que npm run dev, mas colocará o código, no arquivo destino, em única linha)
+
+Vincular arquivos css com view home:
+> View 'home', informar <link> com asset, que linkará arquivos no diretório 'public'
+> Em routes 'web.php', alterar route '/'
+>> Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+
+Otimizar chamada de arquivos origem/destino, para melhor compatibilidade com futuras atualizações de versões css e js:
+> Em 'webpack.mix.js', informar .version() no mix.styles
+>> Atualizar arquivos mix: npm run produtcion (Gerará, em public, arquivo 'mix-manifest.json', com link Hash de versão do css e js)
+>> Linkar Hash na view home: View 'home', alterar link asset por url(mix)
+
+Parametrizar arquivos js que serão vinculados ao diretório 'public':
+> Em 'views/site/js/script.js' popular arquivo com alert
+> Em 'webpack.mix.js', criar mix.scripts e informar caminhos
+>> Atualizar arquivos mix: npm run produtcion
+
+Vincular arquivos js com view site home:
+> View 'site.home', informar <script> com url(mix)
+>> Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+
+Automatizar atualização dos arquivos mix:
+npm run watch (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o npm fará a atualização automaticamente)
+
+> Em views/site/css/style.css, alterar tamanho de fonte
+>> Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+
+Codificação diretório admin:
+> Em diretório views, criar novo diretório 'admin'
+>> Diretório admin, criar novos diretórios 'css' e 'js'
+>> Diretório admin, criar view 'home'
+>>> Em routes 'web.php', criar route '/admin'
+>>>> Testar, no Browser, url admin de entrada (http://localhost/projetos/laravel/projeto9/public/admin)
+
+Criar css do admin:
+> Em 'views/admin/css' criar arquivo 'style.css'
+> Em 'views/admin/js' criar arquivo 'script.js'
+
+Vincular arquivos com diretório public:
+> Em 'webpack.mix.js', acrescentar novos mix.styles() e mix.scripts()
+>> Matar processo de watch: cntrl+c no terminal
+>> Rodar watch novamente para sincronizar: npm run watch
+
+Vincular css e js com view admin home:
+>> View 'admin.home', informar <link css> e <script> com url(mix)
+>>>> Testar, no Browser, url admin de entrada (http://localhost/projetos/laravel/projeto9/public/admin)
+(Proibirá o acesso - conflito entre routes e diretórios (Caminho da route e diretório com mesmo nome))
+
+(Resolver alterando o caminho da route, ou nome do diretório)
+> Mudar nome do caminho da route '/admin' para '/painel'
+>> Testar, no Browser, nova url admin de entrada (http://localhost/projetos/laravel/projeto9/public/painel)
+
+
+
+>>>> VER AULA11 <<<<

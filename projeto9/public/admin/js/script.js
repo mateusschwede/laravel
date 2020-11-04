@@ -1,0 +1,1 @@
+alert('Painel do administrador');
