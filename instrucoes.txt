@@ -41,6 +41,7 @@ NA PRÁTICA:
 - Vendor: Dependências (não mexer)
 - .env: Configurações do Laravel(DBs, Drivers...)
 - Database/Migrations: Migrations
+- package.json: Dependências do projeto
 
 
 ========= ROUTES =========
@@ -541,4 +542,53 @@ Vincular css e js com view admin home:
 
 
 
->>>> VER AULA11 <<<<
+>>> AULA11 <<<
+Projeto10: Bootstrap local no Laravel
+
+> Criar view 'home'
+> Em routes 'web.php', alterar route 'welcome' para 'home'
+
+Instalação das dependências:
+> Instalar, no diretório do projeto, jQuery via terminal usando npm: npm install jquery
+(Diretório node_modules será criado com dependências js)
+
+Vincular jQuery com o public do projeto:
+> Arquivo 'webpack.mix.js', apagar/comentar mix padrão e criar novo mix.scripts
+> Vincular com public: npm run dev
+
+Implementar jquery dentro da view 'home':
+> View 'home', informar <script> com asset
+
+> Instalar Bootstrap no projeto: npm install bootstrap
+(Diretório bootstrap será criado em node_modules)
+> Arquivo 'webpack.mix.js', criar mix.scripts do bootstrap
+> Vincular com public: npm run dev
+
+> Arquivo 'webpack.mix.js', criar mix.sass do bootstrap acima do mix.scripts
+(Poderia-se vincular somente os arquivos .css no dist do Bootstrap para usar o framework comum, mas não poderia-se criar estilos próprios)
+> Vincular com public: npm run dev (2x se necessário para instalação de outras dependências)
+
+Implementar bootstrap dentro da view 'home':
+> View 'home', informar <script> do Bootstrap, e <link css> do Bootstrap(Acima dos <script>) e conteúdo Html de teste
+>> Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
+
+Alterar propriedades do Bootstrap (Personalização):
+> Diretório 'views', criar novo diretório 'scss' e, dentro desse, criar arquivo 'style.scss'
+>> Em 'webpack.mix.js', recortar caminho de origem do mix.sass, e colar dentro de um @import do style.scss
+> Em 'webpack.mix.js', em mix.sass, informar novo caminho de origem com relação ao arquivo style.scss em views. Modificar o nome dor arquivo de saída de bootstrap para style.css
+> Vincular com public: npm run dev
+(Apagar arquivo antigo public/site/bootstrap.css)
+
+Atualizar vinculação com view 'home':
+> Em view 'home', alterar <link css> do bootstrap para novo arquivo(style.css)
+
+Alterar o Theming(Vars de Personalização) do Bootstrap:
+> Adicionar novo padrão de cor(Theme Colors)
+> Em 'resources/views/scss/style.scss', informar Theme Colors informando cores personalizadas
+> Vincular com public: npm run dev
+> Na view 'home', informar button de class danger
+>> Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
+
+
+
+>>>> VER AULA12 <<<<
