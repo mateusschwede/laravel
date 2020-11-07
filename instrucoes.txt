@@ -1,100 +1,19 @@
-========= INSTALAÇÃO =========
-1- Instalar XAMPP
-2- Composer: baixe o arquivo em composer.org, e enviá-lo para pasta de var referência global(no Windows somente executar)
-- Testar composer: No terminal, execute o comando 'composer' para ver informações do mesmo
+Novo projeto Laravel, via Composer:
+> composer create-project --prefer-dist laravel/laravel projeto1
 
-3- Instalar Último Laravel: laravel.com
-Laravel 8.11 usado, com comandos de Laravel 6
--> CRIAR PROJETO: Via composer Create-Project: No diretório dos projetos, executar o comando:
-composer create-project --prefer-dist laravel/laravel projeto1
-
-4- Criar BD 'laravel', com comando, no diretório do projeto: php artisan migrate
-(1º criar BD no Phpmyadmin, depois o comando gerará as tables)
-
-
-========= FUNCIONAMENTO =========
-Browser -> Routes(web.php) -> $controller:
-                       | |-> $view -> Browser
-                       |<-> Model <-> BD
-
-1- User dispara ação no Browser para determinada url
-2- Ação será capturada pelo routes web.php, no diretório Routes, que será roteado a um controller
-3- Controller conversa com Model, que conversa com BD(PDO)
-4- Informação do BD(falha/sucesso) volta ao Model e Controller
-5- Controller chama View dinâmica(Blade), que enviará o resultado via Browser para User
-- Pasta 'public' será onde o projeto é apresentado ao user
-
-NA PRÁTICA:
-(Atente-se com os 'use' e 'namespace', para checar se os mesmos correspondem à árvore de diretórios)
-1- Criar route, comentá-la para criar o Controller
-2- Criar controller, com artisan, e criar metodo que será lido na route
-3- Testar, informando uri, se o método do controller e route funcionam
-4- Criar view com Html
-5- No controller, criar o metodo de return view, com parâmetros var visão e var controller
-6- Na view, informar as vars({{$user->name}}) do informadas como parâmetros do método no controller
-
-========= DIRETÓRIOS =========
-- App/Models: Models(User.php Model de usuários)
-- App/Http/Controllers: Controladores
-- Resources/views: Views(ex welcome.blade.php)
-- Routes: Rotas (web.php possui as rotas do Browser, api.php de APIs...)
-- Vendor: Dependências (não mexer)
-- .env: Configurações do Laravel(DBs, Drivers...)
-- Database/Migrations: Migrations
-- package.json: Dependências do projeto
-
-
-========= ROUTES =========
+========= COMANDOS AUTOMATIZADOS =========
+Ordem de criação: Migrations(se ñ mcr) > Model mcr > PopularMigrations > Controller(se ñ mcr) > Fresh
+- Criar migration: php artisan make:migration comando_nomeTable_table --create=nomeTable(create opcional)
+- Add campo à migration: php artisan make:migration comando_nomeTable_table --table=nomeTable
+- Executar migrations pendentes: php artisan migrate
+- Desfazer migration: php artisan migrate:rollback --step=2(step opcional)
+- Resetar BD conforme migrations: php artisan migrate:fresh
+- Criar model: php artisan make:model nomeModel -mcr(mcr Migration/Controller opcional)
+- Criar controller: php artisan make:controller pasta\nomeController --resource --model=nomeModel(--resource e model opcionais)
 - Listar routes: php artisan route::list
-/*web.php*/
-//Na url 'listagem_usuario', retorna nomeController@metodoController
-//User informe 'listagem_usuario', levará ao UserController e retornará o listUser. Ex: http://localhost/projetos/laravel/projeto1/public/listagem_usuario 
-use App\Http\Controllers\UserController; //import Controller
-Route::get('listagem_usuario',[UserController::class,'listUser']);
-
-
-========= CONTROLLER =========
-> Criar Controller: executar, no diretório do projeto, o código: php artisan make:controller pasta\nomeController(ou sem pasta)
-
-CONTROLLER COM VIEW
-//Método UserController, em 'UserController.php'.
-class UserController extends Controller {
-    public function listUser() {
-        echo "Listar Users";
-    }
-}
-
-//Controller com dados de BD que envia à view
-class UserController extends Controller {
-    public function listUser() {
-        //select user where id=1 somente o 1º que encontrar, abaixo
-        $user = User::where('id','=',1)->first();
-        return view('listUser',[
-            'user' => $user
-            //var visao => var controller
-        ]);
-    }
-}
-
-CONTROLLER COM MODEL
-//Controller UserController.php adiciona novo user ao usuário, na rota, ir para url 'listagem_usuario'
-class UserController extends Controller {
-    public function listUser() {
-        $user = new User();
-        $user->name = 'Mateus';
-        $user->email = 'mateus1908.schwede@gmail.com';
-        $user->password = Hash::make('123');
-        $user->save();
-    }
-}
-
-
-========= VIEW =========
-//View listUser.blade.php
-<h1>Listagem Users</h1>
-<p>Nome: {{ $user->name }}</p>
-<p>Email: {{ $user->email }}</p>
-
+- Instalar dependências: npm install nomeDependencia
+- Executar modificações com dependências: npm run dev(produtcion)
+- Manter execução de dependências: npm run watch
 
 
 >>> AULA4 <<<
@@ -119,7 +38,7 @@ public function boot() {
     ]);
 }
 
->>> CHECKLIST AULA4 <<<
+CheckList aula4:
 1- Criação automatizada do controller
 2- Criação, no routes 'web.php', da route automatizada resources. Tradução dos parâmetros uri na própria route
 3- Alimentar views e, ao mesmo tempo, alimentação dos métodos do controller relacionados às mesmas, conforme parâmetros e BD
@@ -154,23 +73,18 @@ No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalha
 
 
 
->>> ROTEIRO AULA6 <<<
+>>> AULA6 <<<
 Projeto5: Criando regra de negócio e configurando Model, manual e automatizado
 
 Para criar Model, primeiro precisa de uma table do mesmo no BD sobre a mesma, criando nova Migration
 > Atualizar/Resetar BD com projeto:
 php artisan migrate:fresh (exlui tds as tables e recria com base nas Migrations do projeto)
 
-> Criar Migration
-php artisan make:migration create_posts_table
+> Criar Migration: php artisan make:migration create_posts_table
+>> Após codificar Migration, resetar BD com Migration pendente: php artisan migrate
 
-> Depois de codificar a Migration, atualizar/resetar BD com Migration pendente
-php artisan migrate
-
-> Criar Controller
-php artisan make:controller PostController
-
-> Modificar o método welcome em routes 'web.php', com o controller PostController, com método de execução 'showForm'
+> Criar Controller: php artisan make:controller PostController
+>> Modificar o método welcome em routes 'web.php', com o controller PostController, com método de execução 'showForm'
 
 > Criar método 'showForm' no PostController, em branco
 
@@ -228,8 +142,7 @@ php artisan make:model Post -mcr
 php artisan make:controller UserController --resource
 (Popular Migrations com atributos)
 
-> Atualizar/Resetar BD:
-php artisan migrate:fresh
+> Atualizar/Resetar BD: php artisan migrate:fresh
 
 > Inserir, manualmente, alguns Users no BD.
 INSERT INTO users(name,email,password,created_at,updated_at) VALUES ('mateus','mateus@gmail',123,now(),now()),('mateus2','mateus@hotmail',456,now(),now());
@@ -591,4 +504,66 @@ Alterar o Theming(Vars de Personalização) do Bootstrap:
 
 
 
->>>> VER AULA12 <<<<
+>>> AULA12 <<<
+Projeto11: Uploads automatizados no Laravel
+
+Pré-Requisitos:
+> Criar Migration CreateProductsTable: php artisan make:migration create_products_table --create=products (Informar dados tbm)
+> Criar Migration CreateProductsImagesTable: php artisan make:migration create_products_images_table --create=products_images (Informar dados tbm)
+>> Resetar BD: php artisan migrate:fresh
+> Criar Models Product e ProductImage
+
+UPLOAD SIMPLES
+> Em 'views', criar diretórios 'upload' e 'products', em 'upload' criar view 'form'
+> 'web.php' criar route 'form'
+>> Testar, no Browser, url (http://localhost/projetos/laravel/projeto11/public/form)
+
+> Cria controller UploadConttroller: php artisan make:controller UploadConttroller
+>> UploadConttroller, criar método upload, em branco(informar 'use' tbm)
+>> 'web.php', criar route 'upload'
+>> View 'form', informar action 'route()'
+>> UploadConttroller, popular método upload com 'dd()'
+>>> Testar, no Browser, uma submissão
+
+> UploadConttroller, método upload, informar $request->file()->store(), comentar 'dd()'
+(No Laravel, arquivos são salvos na pasta 'storage', gerenciado pelo arquivo config>filesystems.php, 'default'. A filesystem_driver está configurada, ou não, no arquivo .env. Se não existir, utilizará a 'local', configurada em 'disks', abaixo no mesmo arquivo)
+
+Criar filesystem_driver como public, para ser acessada:
+> Em .env, abaixo de LOG_CHANNEL, informar FILESYSTEM_DRIVER=public
+(Agora, de acordo com filesystems.php, os arquivos upload serão salvos em 'storage/app/public')
+(De acordo com UploadConttroller, método store, ao fazer upload, o arquivos será salvo em 'storage/app/public/pastaTeste')
+>> Testar, no Browser, uma submissão(Verificar se diretório e upload fora feito)
+
+UPLOAD MÚLTIPLO e BD
+> Criar controller ProductController: php artisan make:controller ProductController --resource
+
+> Em views/products criar views create e show
+>> ProductController, popular método create
+
+> 'web.php', criar route resource('produtos')(informar 'use' tbm)
+> Verificar se traduziu names: php artisan route:list
+>> Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/create)
+
+> ProductController, popular método store com 'dd()'
+>> Testar, no Browser, submissão de 2 arquivos
+> ProductController, popular método store parte de Add Product, comentar 'dd()'(Informar 'use' tbm)
+>> Testar, no Browser, submissão de 2 arquivos(Verificar se gravou no BD)
+
+> ProductController, popular método store parte de Add Image(s), com 'var_dump()' no for e no início
+>> Testar, no Browser, submissão de 2 arquivos
+
+> ProductController, popular método store parte de Add Image(s), comentar var_dumps(Informar 'use' tbm)
+>> Testar, no Browser, submissão de 2 arquivos(Verificar se gravou no BD)
+
+> ProductController, popular método show
+>> Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
+
+> Em .env, APP_URL, informar url do projeto(http://localhost/projetos/laravel/projeto11/public)
+> Atualizar Laravel url de storage à Public: php artisan storage:link
+>> Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
+
+//VERIFICAR ERRO: NÃO EXIBE DADOS DE PRODUCT NO MÉTODO RESOURCES SHOW()
+
+
+
+>>>> VER AULA13 <<<<
