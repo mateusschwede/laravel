@@ -40,6 +40,7 @@ class TestController extends Controller {
         return view('listUser',[
             'user'=>$user
         ]);
+        //return view('products.show', ['product' => Product::findOrFail($id)]); //Laravel8
     }
 
     //Mostrar form de edição à determinada view/recurso

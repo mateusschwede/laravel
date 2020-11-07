@@ -562,8 +562,6 @@ UPLOAD MÚLTIPLO e BD
 > Atualizar Laravel url de storage à Public: php artisan storage:link
 >> Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
 
-//VERIFICAR ERRO: NÃO EXIBE DADOS DE PRODUCT NO MÉTODO RESOURCES SHOW()
-
 
 
 >>>> VER AULA13 <<<<

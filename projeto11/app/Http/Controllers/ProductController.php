@@ -35,11 +35,8 @@ class ProductController extends Controller {
         }
     }
 
-    public function show(Product $product) {
-        //dd($product);
-        return view('products.show',[
-            'product'=>$product
-        ]);
+    public function show($id) {
+        return view('products.show', ['product' => Product::findOrFail($id)]);
     }
 
     public function edit($id) {
