@@ -1,21 +1,6 @@
 Novo projeto Laravel, via Composer:
 > composer create-project --prefer-dist laravel/laravel projeto1
 
-========= COMANDOS AUTOMATIZADOS =========
-Ordem de criação: Migrations(se ñ mcr) > Model mcr > PopularMigrations > Controller(se ñ mcr) > Fresh
-- Criar migration: php artisan make:migration comando_nomeTable_table --create=nomeTable(create opcional)
-- Add campo à migration: php artisan make:migration comando_nomeTable_table --table=nomeTable
-- Executar migrations pendentes: php artisan migrate
-- Desfazer migration: php artisan migrate:rollback --step=2(step opcional)
-- Resetar BD conforme migrations: php artisan migrate:fresh
-- Criar model: php artisan make:model nomeModel -mcr(mcr Migration/Controller opcional)
-- Criar controller: php artisan make:controller pasta\nomeController --resource --model=nomeModel(--resource e model opcionais)
-- Listar routes: php artisan route::list
-- Instalar dependências: npm install nomeDependencia
-- Executar modificações com dependências: npm run dev(produtcion)
-- Manter execução de dependências: npm run watch
-
-
 >>> AULA4 <<<
 Projeto3: Automatizando com artisan e resource
 
@@ -70,7 +55,6 @@ php artisan migrate:rollback (desfaz todas as alterações no BD)
 php artisan migrate:rollback --step=2 (No caso, desfazer os últimos 2 passos, ex: desfazer as últimas 2 migrations criadas no BD)
 
 No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalhará com o prjeto somente executa o 'php artisan migrate', e todo o BD será gerado/atualizado automaticamente
-
 
 
 >>> AULA6 <<<
@@ -129,7 +113,6 @@ Após isso, será necessário somente:
 2- Informar atributos na Model
 3- Informar as routes 'web.php' e programar os métodos no Controller
 (Atente-se em informar e verificar os 'use' e 'namespace' corretos para os recursos em cada arquivo)
-
 
 
 >>> AULA7 <<<
@@ -454,7 +437,6 @@ Vincular css e js com view admin home:
 >> Testar, no Browser, nova url admin de entrada (http://localhost/projetos/laravel/projeto9/public/painel)
 
 
-
 >>> AULA11 <<<
 Projeto10: Bootstrap local no Laravel
 
@@ -501,7 +483,6 @@ Alterar o Theming(Vars de Personalização) do Bootstrap:
 > Vincular com public: npm run dev
 > Na view 'home', informar button de class danger
 >> Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
-
 
 
 >>> AULA12 <<<
@@ -563,5 +544,32 @@ UPLOAD MÚLTIPLO e BD
 >> Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
 
 
+>>> AULA13 <<<
+Projeto12: Ajax no Laravel
+(Baseado no Projeto7, Laravel6 login)
 
->>>> VER AULA13 <<<<
+Pré-Requisitos:
+> Resetar BD: php artisan migrate:fresh
+> Inserir user: INSERT INTO users(name,email,password) VALUES ("mateus","mateus@gmail.com",1234567800);
+
+> Atualizar jQuery, informando link na view 'formLogin', inserir tbm arquivo Ajax(https://github.com/jquery-form/form), informando link CDN
+>> No final do código, informar área de código(<script>) com função Ajax, com alert teste
+>> Testar no Browser(http://localhost/projetos/laravel/projeto12/public/admin/login)
+>> Remover method e action do form, e informar name no <form>
+>> Inserir função de submissão, com alert teste2 e testar, no Browser, submissão
+>> Inserir vars do form e testar, no Browser, submissões com os alerts
+>> Comentar vars, inserir função $.ajax
+
+> Controller AuthController, alterar if de feedback de validação de email
+>> Da mesma forma, informar no if Auth::attempt e abaixo, fora, dele
+>>> Testar, no Browser, informando email inválido e dados inválidos(Verificar console se json fora informado)
+
+> View formLogin, alterar, na $.ajax, console por resposta
+>> Remover blocos @if e @foreach, bloco {{$error}} também. Alterar class da <div>
+>> Função $.ajax, abaixo do else para erro, informar messageBox
+>>> Testar, no Browser, informando dados inválidos(verificar se mensagem <div> aparecerá)
+>>> Testar, no Browser, informando dados corretos(verificar se será redirecionado)
+
+
+>>>> VER AULA14 <<<<
+(Inserir AULA13 no meu site antes!)
