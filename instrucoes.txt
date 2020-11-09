@@ -1,3 +1,5 @@
+"Laravel é a ferramenta perfeita para você possuir abaixo de seu guarda-chuva de soluções"
+
 Novo projeto Laravel, via Composer:
 > composer create-project --prefer-dist laravel/laravel projeto1
 
@@ -642,5 +644,45 @@ Criar agendamentos/programações de tarefas(Jobs):
 (Após delay, no caso 15seg, jobs são processados e, se der falha, tenta, no caso, faz até 3 tentativas no total)
 
 
->>>> VER AULA16 <<<<
-(INSERIR AULA15 NO MEU SITE...)
+>>> AULA16 <<<
+Projeto15: Autenticação com Socialite(Google,Facebook) no Laravel
+
+Pacote para autenticação com outros servidores(Google, Facebook...). Os processos tendem a ser iguais, com excessão das nomeoclaturas
+O ideal, além disso, é criar, após isso, uma regra de negócios para salvar a autenticação em BD, para então não depender somente dos dados terceiros e sessões fictícias
+
+Pré-Requisitos:
+> Pesquisar na documentação o Laravel Socialite
+> Facebook for Developers
+> Google Integrating
+> Instalar componente Socialite: composer require laravel/socialite
+
+Configurar Socialite:
+> Diretório config, services.php, inserir trecho de configuração 'facebook'
+> Arquivo .env, informar todas as chaves do trecho de configuração 'facebook', no final do arquivo(Valores serão informados em breve)
+
+FACEBOOK
+Página Facebook Developers:
+> Meus Apps / Criar novo: Pegar id do app gerado e colá-lo no FACEBOOK_CLIENT_ID
+> Configurar, na página, em Facebook Login / Web, infrmar url(http://localhost/projetos/laravel/projeto15/public/), avançar até finalizar as etapas(Nada mais será necessário, somente avançar)
+> Em configurações/basico, copiar chave secreta e colá-la no FACEBOOK_CLIENT_SECRET, informar domínio(localhost) e url's de privacidade e termos de uso(da sua aplicação/github como exemplo), tipo de uso comercial(Apoia minha própria empresa) e salvar alterações
+
+Criar routes:
+> Criar controller SocialiteController: php artisan make:controller SocialiteController
+> Em SocialiteController, informar métodos(Informar 'use' tbm)
+> Em routes 'web.php', informar routes(Informar 'use' tbm)
+>> Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/facebook), clicar em 'continuar', e um erro 404 de feedback aparecerá
+> Em .env, alterar APP_URL com url informada(http://localhost/projetos/laravel/projeto15/public)
+>> Testar login, no Browser, novamente(http://localhost/projetos/laravel/projeto15/public/login/facebook), cairá em uma página em branco
+
+GOOGLE
+> Diretório config, services.php, inserir trecho de configuração 'google'
+> Arquivo .env, informar todas as chaves do trecho de configuração 'google', no final do arquivo(Valores serão informados em breve)
+> Em SocialiteController, informar métodos Google
+> web.php, informar routes google
+Página Google Developers Console:
+Credenciais / Criar Credenciais / ID do Cliente OAuth / Tipo de Aplicativo(App da web) / Nome(Laravel Socialite) / Origens JS autorizadas(http://localhost) / URLs de Redirecionamento Autorizados(http://localhost/projetos/laravel/projeto15/public/login/google)(http://localhost/projetos/laravel/projeto15/public/login/google/callback) / Create
+> Copiar id e chave, colá-los no .env do Google
+>> Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/google)
+
+
+>>>> VER AULA17 <<<<
