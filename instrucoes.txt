@@ -614,4 +614,33 @@ Disparar email pronto:
 (Verificar na caixa de email/span do email destinatário)
 
 
->>>> VER AULA15 <<<<
+>>> VER AULA15 <<<
+Projeto14: Fila e Processamento Assíncrono no Laravel
+(Replica do projeto13)
+
+Ideia é enviar requisições ao BD, para depois executá-las, ao invés de executar tudo no momento
+
+Parametrizar o projeto para trabalhar com fias:
+> web.php, alterar método send() para queue()
+> Em .env, alterar QUEUE_CONNECTION para modo 'database'
+
+Parametrizar BD para queue:
+> Adicionar table específica no BD: php artisan queue:table (Cria migrations específicas: jobs e failed_jobs)
+> Atualizar BD: php artisan migrate:fresh
+>> Testar, no Browser, se carregamento da página ficou mais rápido(http://localhost/projetos/laravel/projeto14/public/envio-email) (Cntrl+c para parar)
+(Execuções de emails salvos na table jobs)
+> Executar fila: php artisan queue:work
+
+Criar agendamentos/programações de tarefas(Jobs):
+> Criar objeto job: php artisan make:job newLaravelTips
+(Em app, cria-se diretório 'jobs', com classes dentro)
+> web.php, alterar método queue por send() novamente, e recortar linha da classe job newLaravelTips, método handle
+> web.php, informar dispatch()
+> Classe job newLaravelTips, popular método construct, criar atributo acima
+> Executar fila: php artisan queue:work
+>> Testar, no Browser, submissão(http://localhost/projetos/laravel/projeto14/public/envio-email)
+(Após delay, no caso 15seg, jobs são processados e, se der falha, tenta, no caso, faz até 3 tentativas no total)
+
+
+>>>> VER AULA16 <<<<
+(INSERIR AULA15 NO MEU SITE...)
