@@ -550,7 +550,7 @@ Projeto12: Ajax no Laravel
 
 Pré-Requisitos:
 > Resetar BD: php artisan migrate:fresh
-> Inserir user: INSERT INTO users(name,email,password) VALUES ("mateus","mateus@gmail.com",1234567800);
+> Inserir user no Register
 
 > Atualizar jQuery, informando link na view 'formLogin', inserir tbm arquivo Ajax(https://github.com/jquery-form/form), informando link CDN
 >> No final do código, informar área de código(<script>) com função Ajax, com alert teste
