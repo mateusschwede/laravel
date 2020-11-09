@@ -571,5 +571,47 @@ Pré-Requisitos:
 >>> Testar, no Browser, informando dados corretos(verificar se será redirecionado)
 
 
->>>> VER AULA14 <<<<
-(Inserir AULA13 no meu site antes!)
+>>> AULA14 <<<
+Projeto13: Enviando emails no Laravel
+
+Pré-Requisitos:
+> Arquivo .env, parte de mail, configurar autenticação com servidor(Recomendável servidor de hospedagem/compartilhado premium para que o email não caia em span)
+> Se seu remetente for Gmail, ative a opção de segurança 'Acesso a app menos seguro', nas configurações de sua conta Gmail
+
+> Criar objeto de email: php artisan make:mail newLaravelTips(nomeClasse)(No diretório app, cria-se diretório Mail)
+> Em routes 'web.php', informar route 'envio-email'
+
+Criar views de teste template de email:
+> Em 'views', criar diretório 'mail', com view 'newLaravelTips' e populá-la
+> Em classe newLaravelTips, método build, alterar nome da view de retorno
+>> Testar, no Browser, url (http://localhost/projetos/laravel/projeto13/public/envio-email)
+
+> Classe newLaravelTips, popular método build com parâmetros
+> Views 'web.php' popular view 'envio-email' com objeto std e parâmetros
+> Classe newLaravelTips, informar parâmetro $user no método construct, populá-lo, e atributos acima dele
+
+Disparar email teste:
+> View newLaravelTips, informar vars{{}}
+>> Testar, no Browser, se variáveis foram informadas, url(http://localhost/projetos/laravel/projeto13/public/envio-email)
+> web.php, comentar return new, e informar Facade Mail
+>> Testar, no Browser, se variáveis foram informadas, url(http://localhost/projetos/laravel/projeto13/public/envio-email)
+>>> Verificar caixa de entrada e span no email destinatário
+
+Criar template markdown de Email:
+Importar templates markdown personalizáveis de email do Laravel: php artisan vendor:publish --tag=laravel-mail
+(Em resources/views cria-se diretório 'vendor/mail' com temas e configuráveis)
+> web.php, comentar linha de Mail send() e descomentar linha acima, de return
+>> Testar, no Browser, recarregar págnina, se view é mostrada novamente(http://localhost/projetos/laravel/projeto13/public/envio-email)
+
+> Classe newLaravelTips, alterar return this->view para markdown(Comentei linha antiga e informei nova abaixo)
+>> Testar, no Browser, se layout mudou(http://localhost/projetos/laravel/projeto13/public/envio-email)
+> View newLaravelTips, informar @component e @endcomponent
+>> Testar, no Browser, se layout mudou(http://localhost/projetos/laravel/projeto13/public/envio-email)
+
+Disparar email pronto:
+> web.php, comentar return e descomentar Mail send()
+>> Testar, no Browser, envio do email(http://localhost/projetos/laravel/projeto13/public/envio-email)
+(Verificar na caixa de email/span do email destinatário)
+
+
+>>>> VER AULA15 <<<<
