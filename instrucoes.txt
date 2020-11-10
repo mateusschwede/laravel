@@ -685,4 +685,18 @@ Credenciais / Criar Credenciais / ID do Cliente OAuth / Tipo de Aplicativo(App d
 >> Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/google)
 
 
->>>> VER AULA17 <<<<
+>>> AULA17 <<<
+Projeto16: Sessões com Helper e Facade no Laravel
+
+Configurar sessão:
+> Em config/session.php e .env alterar SESSION_DRIVER de 'file' para 'cookie'
+
+> Criar controller SessionController: php artisan make:controller SessionController
+> SessionController, criar método session(Informar 'use' tbm) com somente dd()
+> Em routes 'web.php', criar route session(Informar 'use' tbm)
+>> Testar, no Browser, se route funciona(http://localhost/projetos/laravel/projeto16/public/session)
+
+Gravar dados na sessão:
+> SessionController, método session, popular método e testar, no Browser, mesma url
+>> Testar, no Browser, echos de sessão(http://localhost/projetos/laravel/projeto16/public/session)
+(1ª vez confira flash, comente a Session::flash, depois recarregue a página novamente(ainda à exibirá), depois novamente(sumirá))
