@@ -700,3 +700,40 @@ Gravar dados na sessão:
 > SessionController, método session, popular método e testar, no Browser, mesma url
 >> Testar, no Browser, echos de sessão(http://localhost/projetos/laravel/projeto16/public/session)
 (1ª vez confira flash, comente a Session::flash, depois recarregue a página novamente(ainda à exibirá), depois novamente(sumirá))
+
+
+>>> AULA18 <<<
+Projeto17: Autenticação em API Rest com JWT
+(JWT Json Web Token)
+
+A diferença é que as routes serão criadas no arquivo 'api.php'
+Visar reuso das Models, tanto pra aplicação, quanto pra API
+
+Pré-Requisitos:
+> Resetar BD: php artisan migrate:fresh
+>> Inserir 1 user na table Users
+
+Criar exemplo de saída em json:
+> Criar controller Api\UserController: php artisan make:controller Api\UserController --api(Cria métodos de Api)
+> Controller UserController, popular méotodo index(Informar 'use' tbm)
+
+> Em routes 'api.php', comentar primeira route, criar route 'users'(Informar 'use' tbm)
+>> Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users)
+
+EndPoint é público, precisa autentacá-lo para protegê-lo(Proteção de routes):
+> Instalar componente JWT-Auth: composer require tymon/jwt-auth 1.0.1
+> Em config/app.php, inserir linha em 'providers'
+> Publicar configurações: php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+> Gerar Secret Key: php artisan jwt:secret (Key estará no final do .env)
+> Atualizar Mode User, informando 'implements'(Informar 'use' tbm) e métodos
+> Em config/auth.php, inserir 'defaults' e 'guards'
+> Criar controller AuthController(Populá-lo após criá-lo): php artisan make:controller Api\AuthController
+> Em routes 'api.php', informar route 'login'(Informar 'use' tbm)
+
+> Em routes 'api.php', informar route '/home'
+> Criar view 'home'
+> Criar middleware apiProtectedRoute(pouplá-lo tbm, informar 'use'): php artisan make:middleware apiProtectedRoute
+> Em Controllers/kernel.php, informar apelido do middleware
+> Em routes 'api.php', informar route group, colocar route 'users' dentro dela
+>> Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users), informando token bear, que será válido por 1hora(3600seg)
+(Nos casos de Laravel8, será necessário adaptar o código conforme pesquisas...)
