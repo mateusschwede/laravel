@@ -835,3 +835,29 @@ Colocar composer.phar no diretório do projeto Laravel:
 
 Instalar npm:
 > CentOS: yum install npm
+
+
+Laravel no Linux(Debian):
+1- Baixar Xampp
+> Baixar arquivo(https://www.apachefriends.org/pt_br/index.html)
+(diretório do download)
+> Torná-lo executável: sudo chmod +x nomeArquivoXampp.run
+> Instalar arquivo: sudo /nomeArquivoXampp.run (next procedimentos até finish)
+(Diretório Desktop)
+> Iniciar xampp: sudo ../../opt/lampp/lampp start (stop para encerrar, status para verificar)
+
+2- Baixar Composer:
+> Com Xampp Php executando, instalar curl:
+>> sudo apt install curl
+> Baixar Composer e vincular com Php Xampp:
+>> sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php
+> Mover arquivo composer.phar para torná-lo de uso Global:
+>> sudo mv composer.phar /usr/local/bin/composer
+> Vincular Php com uso Global:
+>> sudo ln -s /opt/lampp/bin/php /usr/local/bin/php
+
+3- Instalar Nodejs e npm:
+> sudo apt install nodejs && sudo apt install npm
+
+4- Baixar projeto Laravel:
+> composer create-project --prefer-dist laravel/laravel nomeProjeto
