@@ -1,7 +1,7 @@
 "Laravel é a ferramenta perfeita para você possuir abaixo de seu guarda-chuva de soluções"
 
 Novo projeto Laravel, via Composer:
-> composer create-project --prefer-dist laravel/laravel projeto1
+> composer create-project --prefer-dist laravel/laravel nomeProjeto
 
 >>> AULA4 <<<
 Projeto3: Automatizando com artisan e resource
@@ -737,3 +737,101 @@ EndPoint é público, precisa autentacá-lo para protegê-lo(Proteção de route
 > Em routes 'api.php', informar route group, colocar route 'users' dentro dela
 >> Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users), informando token bear, que será válido por 1hora(3600seg)
 (Nos casos de Laravel8, será necessário adaptar o código conforme pesquisas...)
+
+
+>>> AULA19 <<<
+Deploy do Laravel em ambiente compartilhado
+(Instalar o Laravel no servidor compartilhado)
+
+Pré-Requisitos:
+> Php recente instalado
+
+No terminal do cPanel do serviço de hospedagem:
+1- Instalar Composer, no diretório do usuário(~):
+> wget https://getcomposer.org/installer
+> php installer
+> rm -rf installer
+2- Instalar Laravel:
+> composer create-project --prefer-dist laravel/laravel nomeProjeto
+
+Tornar o Public do Laravel acessível ao servidor(public_html):
+> mv public_html public_html_bkp (Ou tbm pode remover o arquivo caso não queira deixá-lo como forma de backup)
+> ln -s nomeProjeto/public public_html (Pasta www do servidor agora apontará ao public.html, que agora vincula o Public do Laravel, mesmo assim apontará erro 500: sem permissão ao cPanel, necessárias permissões diretórios(755), arquivos(644))
+> cd nomeProjeto
+> find * -type d -exec chmod 755 {} \;
+> find * -type f -exec chmod 644 {} \;
+> cd ..
+> chmod 755 nomeProjeto
+(Testar, no Browser, domínio/url do site, verificar se o welcome do Laravel está apresentado)
+(Arquivos, como .env, podem ser acessados via terminal com editor de texto nano)
+(Pode parametrizar a IDE para trabalhar diretamente com FTP de dentro do cPanel)
+
+
+>>> AULA20 <<<
+Deploy do Laravel em ambiente privado
+(Quando não possui-se serviços já prontos fornecidos pelo provedor de hospedagem, como o cPanel e terminal parametrizado, somente o acesso ao servidor, como um Ubuntu Server, com acesso à ip interno)
+
+Acesso via SSH ao servidor(Exemplo utilizado Linux CentOS):
+> ssh root@198.50.205.96 -p 1140 (ip e porta devem ser fornecidos pelo provedor, geralmente a porta padrão é 22)
+(Informar senha do servidor)
+> Instalar kit de programas e configurações: https://github.com/teddysun/lamp
+
+Instalação Lamp CentOS:
+> yum -y install wget git (Debian: apt-get -y install wget git)
+> git clone https://github.com/teddysun/lamp.git
+> cd lamp
+(Diretório lamp)> chmod 755 *.sh
+> ./lamp.sh
+
+Instalador:
+> Instalar Apache: opção 1
+> Não instalar módulos do Apache: opção 4
+> Instalar MariaDB última versão: ver opção
+> Caminho do MariaDB, somente 'enter' pra confirmar caminho padrão(/usr/local/mariadb/data)
+> Senha do MariaDB: Informe a senha que desejar
+> Instalar Php última versão: ver opção
+> Módulos Php necessários: xdebug(Ver opção)
+> Instalar Phpmyadmin: opção 1
+> Não instalar kodexplorer: ver opção
+> Verificar resumo e anotar caminhos de cada módulo, após informe 'enter' pra finalizar, senão 'cntrl+c' pra cancelar
+>> Após tudo instalado, testar, no Browser, se página home abre no ip do servidor informado
+(Ex: ip/phpmyadmin abrirá o Phpmyadmin, testar login com senha que informou)
+(Nesse caso, o diretório pra home do sistema será data/www/default/index.html)
+
+Instalar Composer:
+> cd www
+(Diretório www)> wget https://getcomposer.org/installer
+> php installer
+
+No arquivo php.ini(Nesse caso, user/local/php/php.ini), remover linha proc_open:
+> nano user/local/php/php.ini
+(No arquivo, linha 'disable_functions' remover 'proc_open' e 'proc_get_status')(cntr+o e cntrl+x pra salvar e sair)
+
+Reiniciar serviços:
+> /etc/init.d/httpd restart
+
+Instalar projeto Laravel:
+> php composer.phar create-project --prefer-dist laravel/laravel nomeProjeto (Se necessário, em caso de erro, remover diretório installer e pasta do projeto já existente)
+
+Apontar public do Laravel para acesso à página home:
+> mv default/ default_bkp
+> ln -s nomeProjeto/public default
+>> Testar, no Browser, se página home abre no ip do servidor informado(provável que informe erro Laravel de permissão)
+
+Permitir root:
+> chown apache:apache nomeProjeto
+> chown apache:apache default
+> cd nomeProjeto
+(Diretório nomeProjeto)> find * -type d -exec chmod 755 {} \;
+> find * -type f -exec chmod 644 {} \;
+> cd ..
+(Diretório www)> chmod 755 nomeProjeto
+> chown -R apache:apache nomeProjeto
+>> Testar, no Browser, se página home abre no ip do servidor informado
+
+Colocar composer.phar no diretório do projeto Laravel:
+> mv composer.phar nomeProjeto/composer.phar
+(Agora, tudo que será instalado via composer no projeto, ao invés de só 'composer ...', deverá ser 'php composer.phar ...')
+
+Instalar npm:
+> CentOS: yum install npm
