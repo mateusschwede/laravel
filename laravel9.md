@@ -10,7 +10,7 @@
 - Pagina de depuração de exceção de código fora redesenhada e com temas personalizados (Light/Dark)
 - Saída CLI do route:list fora redesenhada e melhor organizada
 - Comando 'php artisan test --coverage --min=80.3' para explorar quantidade de cobertura de código aos testes realizados, com min para limitação de tempo, via Xdebug
-- Aprimoramento da documentação do servidor web socket Soketi, parceiro do Laravel, compatível e escrito com Node.js
+- Aprimoramento da documentação do servidor web socket Soketi, parceiro do Laravel, compatível com Laravel e escrito com Node.js
 - Suporte aprimorado para Collections IDE, adiciona definições genéricas aprimoradas às collections, aprimorando para IDEs e editores de código, com suporte à análise e estatística
 - Arquivo 'server.php' removido, fora incluso dentro do próprio framework, podendo somente ser usado com 'php artisan serve'
 - Proteção contra falhas em filas em jobs com 'php artisan queue:flush', como 'php artisan queue:flush --hours=24'
@@ -43,18 +43,18 @@ public function name(): Attribute {
 
 Além disso, pode-se armazenar, em cache, os valores de objeto que são retornados pelo atributo, assim como classes de conversão
 ~~~php
-use App\Support\Address;
+use App\Support\Endereco;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-public function address(): Attribute {
+public function endereco(): Attribute {
     return new Attribute(
-        get: fn ($value, $attributes) => new Address(
-            $attributes['address_line_one'],
-            $attributes['address_line_two'],
+        get: fn ($value, $attributes) => new endereco(
+            $attributes['endereco_linha_um'],
+            $attributes['endereco_linha_dois'],
         ),
-        set: fn (Address $value) => [
-            'address_line_one' => $value->lineOne,
-            'address_line_two' => $value->lineTwo,
+        set: fn (Endereco $value) => [
+            'endereco_linha_um' => $value->linhaUm,
+            'endereco_linha_dois' => $value->linhaDois,
         ],
     );
 }
@@ -92,8 +92,8 @@ enum Categoria: string {
 
 Se o segmento da rota Categoria for frutas ou pessoas, a rota será invocada. Caso contrário, retornará erro 404
 ~~~php
-Route::get('/categories/{category}', function(Category $category) {
-    return $category->value;
+Route::get('/categorias/{categoria}', function(Categoria $categoria) {
+    return $categoria->value;
 });
 ~~~
 
