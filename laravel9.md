@@ -1,6 +1,8 @@
 # Novidades Laravel 9
 > Essas e outras novidades no [site oficial do Laravel](https://laravel.com/docs/master/releases) e no site [UB Social](https://ubsocial.github.io)
 
+<img src="Anexos/Laravel 9.png" width="250"/>
+
 ## Recursos
 - Requer Php 8.1 ou superior (8 para funcionalidades principais, superior para funcionalidades específicas). Com isso, houve-se inclusão de funções String como str_contains(), str_starts_with() e str_ends_with()
 - Utilização da library Symfony Mailer no lugar do Swift Mailer para emissões de emails
@@ -64,10 +66,11 @@ public function endereco(): Attribute {
 ~~~php
 use App\Enums\ServerStatus;
 /**
- * The attributes that should be cast.
- *
- * @var array
- */
+* The attributes that should be cast.
+*
+* @var array
+*/
+
 protected $casts = [
     'status' => ServerStatus::class,
 ];
@@ -92,7 +95,7 @@ enum Categoria: string {
 
 Se o segmento da rota Categoria for frutas ou pessoas, a rota será invocada. Caso contrário, retornará erro 404
 ~~~php
-Route::get('/categorias/{categoria}', function(Categoria $categoria) {
+Route::get('/categorias/{categoria}',function(Categoria $categoria) {
     return $categoria->value;
 });
 ~~~
@@ -102,7 +105,8 @@ Anteriormente, podia-se definir escopos Eloquent aninhados/filhos de outro anter
 ~~~php
 use App\Models\Post;
 use App\Models\User;
-Route::get('/users/{user}/posts/{post:slug}', function(User $user, Post $post) {
+
+Route::get('/users/{user}/posts/{post:slug}',function(User $user, Post $post) {
     return $post;
 });
 ~~~
@@ -111,7 +115,8 @@ Agora, pode-se definir as ligações filhas mesmo sem chave de ligação, via m�
 ~~~php
 use App\Models\Post;
 use App\Models\User;
-Route::get('/users/{user}/posts/{post}', function(User $user, Post $post) {
+
+Route::get('/users/{user}/posts/{post}',function(User $user, Post $post) {
     return $post;
 })->scopeBindings();
 ~~~
@@ -119,7 +124,7 @@ Route::get('/users/{user}/posts/{post}', function(User $user, Post $post) {
 Ou via definição do grupo inteiro com associações de escopo
 ~~~php
 Route::scopeBindings()->group(function () {
-    Route::get('/users/{user}/posts/{post}', function(User $user, Post $post) {
+    Route::get('/users/{user}/posts/{post}',function(User $user, Post $post) {
         return $post;
     });
 });
@@ -129,6 +134,7 @@ Route::scopeBindings()->group(function () {
 Com um controlador comum para todas as rotas do mesmo grupo, basta, ao definir as rotas, fornecer o método controlador para invocá-las
 ~~~php
 use App\Http\Controllers\OrderController;
+
 Route::controller(OrderController::class)->group(function() {
     Route::get('/orders/{id}','show');
     Route::post('/orders','store');
@@ -152,7 +158,7 @@ $users = DB::table('funcionario')
 Para transformar uma String Blade em Html, basta usar o método de renderização
 ~~~php
 use Illuminate\Support\Facades\Blade;
-return Blade::render('Olá, {{ $nome }}', ['nome'=>'UB Social']);
+return Blade::render('Olá, {{$nome}}',['nome'=>'UB Social']);
 ~~~
 
 Da mesma forma, pode-se renderizar determinado componente de classe passando sua instância
@@ -188,7 +194,7 @@ Da mesma forma, utilizar diretiva @selected para indicar caixa de seleção Html
 ~~~php
 <select name="version">
     @foreach ($product->versions as $version)
-        <option value="{{ $version }}" @selected(old('version') == $version)>
+        <option value="{{$version}}" @selected(old('version') == $version)>
             {{ $version }}
         </option>
     @endforeach
@@ -200,10 +206,11 @@ Para indicar esse novo formato, ao invés do anterior com Tailwind, basta chamar
 ~~~php
 use Illuminate\Pagination\Paginator;
 /**
- * Bootstrap any application services.
- *
- * @return void
- */
+* Bootstrap any application services.
+*
+* @return void
+*/
+
 public function boot() {
     Paginator::useBootstrapFive();
 }
@@ -220,7 +227,7 @@ $validator = Validator::make($request->all(), [
     'companies.*.id' => Rule::forEach(function($value,$attribute) {
         return [
             Rule::exists(Company::class,'id'),
-            new HasPermission('manage-company',$value),
+            new HasPermission('ubsocial-company',$value),
         ];
     }),
 ]);
@@ -242,12 +249,14 @@ Para evitar colisão de nomes com classes migrations, fora padronizada a criaç�
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+
 return new class extends Migration {
     /**
     * Run the migrations.
     *
     * @return void
     */
+    
     public function up() {
         Schema::table('people', function (Blueprint $table) {
             $table->string('first_name')->nullable();
