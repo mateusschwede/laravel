@@ -1,7 +1,7 @@
 # Novidades Laravel 9
 > Essas e outras novidades no [site oficial do Laravel](https://laravel.com/docs/master/releases) e no site [UB Social](https://ubsocial.github.io)
 
-<img src="Anexos/Laravel 9.png" width="250"/>
+<img src="Anexos/Laravel 9.png" width="300"/>
 
 ## Recursos
 - Requer Php 8.1 ou superior (8 para funcionalidades principais, superior para funcionalidades específicas). Com isso, houve-se inclusão de funções String como str_contains(), str_starts_with() e str_ends_with()
